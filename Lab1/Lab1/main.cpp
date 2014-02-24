@@ -8,12 +8,11 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #define IDC_MAIN_BUTTON	101			// Button identifier
 #define IDC_MAIN_EDIT	102			// Edit box identifier
-#define IDC_EXIT_BUTTON 103			//Exit Button
+#define IDC_EXIT_BUTTON 103			// Exit Button
     
-
 LRESULT CALLBACK WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
-int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShowCmd)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShowCmd)
 {
 	WNDCLASSEX winClass;
 	ZeroMemory(&winClass,sizeof(WNDCLASSEX));
@@ -24,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShow
 	winClass.hCursor=LoadCursor(NULL,IDC_ARROW);
 	winClass.hIcon=NULL;
 	winClass.hIconSm=NULL;
-	winClass.hInstance=hInst;
+	winClass.hInstance=hInstance;
 	winClass.lpfnWndProc=(WNDPROC)WinProc;
 	winClass.lpszClassName="Window Class";
 	winClass.lpszMenuName=NULL;
@@ -39,18 +38,22 @@ int WINAPI WinMain(HINSTANCE hInst,HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShow
 			MB_ICONERROR);
 	}
 
+	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 
+
+	
 	HWND hWnd=CreateWindowEx(NULL,
 			"Window Class",
-			"Windows application",
-			WS_OVERLAPPEDWINDOW,
-			200,
-			200,
-			640,
-			480,
+			"Lab#1",
+			WS_OVERLAPPEDWINDOW |WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX,
+			screenWidth/6,
+			screenHeight/7,
+			screenWidth - 2*screenWidth/6,
+			screenHeight - 2*screenHeight/7,
 			NULL,
 			NULL,
-			hInst,
+			hInstance,
 			NULL);
 
 	if(!hWnd)
@@ -81,6 +84,19 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg)
 	{
+		case WM_GETMINMAXINFO:
+		{
+			int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+			int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+			MINMAXINFO* mmi = (MINMAXINFO*)lParam;
+			mmi->ptMinTrackSize.x = 450;
+			mmi->ptMinTrackSize.y = 250;
+			mmi->ptMaxTrackSize.x = screenWidth - 2*screenWidth/6;
+			mmi->ptMaxTrackSize.y = screenHeight - 2*screenHeight/7;
+		}
+		break;
+		//end getminmaxinfo
+
 		case WM_DESTROY:
 		{
 			PostQuitMessage(0);
