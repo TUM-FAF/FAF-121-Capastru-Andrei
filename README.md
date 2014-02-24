@@ -5,45 +5,30 @@ Programming Style Guideline
 
   The style for writing code is CamelCase, without Hungarian Notation ( not specifing the type of variable, only for standart Windows parameters or functions).
   
-  Names should contain at least minimum idea about what identificator means, like `buttonArray` or `winClass`. Short names will be used for little scopes (like `i` and `j` for loops) or for things that are widely used like `ps` (`PAINTSTRUCT` variable)
+  Names should contain at least minimum idea about what identificator means, like `buttonArray` or `winClass`. Short names will be used for little scopes (like `i` and `j` for loops) or for things that are widely used like `ps` (`PAINTSTRUCT` variable).
+
+  `global` variables will be prefixed with 'g_' ( `g_buttonArray` ).
+  
+  `static` variables will be prefixed with 's_' ( `s_buttonArray` ).
+
+  `functions` will start with a capital letter ( `DrawButtons` ).
+
+  `#define`s will be written in snake_case, all caps. ( `IDC_MAIN_BUTTON`).
 
 
-* `globals` should be prefixed with 'g_' and must be used with caution (preferably they should not exceed the file scope)
+#### Indentation
 
-* `static` function variables should be prefixed with 's_'
+  Indent size 4 (VisualStudio default).
 
-* `class members`, static and non-static, should NOT be prefixed with 'm_' or 's_'
+#### Braces
 
-* `variable` names - camelCase starting with a lowercase letter
-
-* `function` and _class_ names - CamelCase starting with a capital letter
-
-* `#define`'s - SNAKE_CASE, all caps
-
-
-
-#### Indentation and braces
-
-* Indent with tabs of size 4
-
-* ALWAYS use braces in cases like `if`'s with one statement
-
-* For `if`'s with one short statement it is possible to use the following:
-```
-if (condition) { SomeFunction(); }
-```
-
-* Use 'Allman' indentation and braces style:
-```
-if (condition)
-{
-	// code
-}
-```
-
-
-#### Other
-
-* ~~goto~~
-
-* Use prefix increment/decrement (`++i`) operators instead of postfix (`i++`), except for special cases
+  I will use them always, even if there is only one instruction. `if` (//something) {  //doSomething }
+  
+  If there's more than one intruction, `Allman` style will be used:
+  `if` (...)
+  {
+      ...
+  }
+#### Increment and decrement
+  
+  Always will be used `i++` and `i--`, `i+=someNumber` and `i-=someNumber` instead of `i = i + someNumber`.
