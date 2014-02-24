@@ -25,9 +25,13 @@ Programming Style Guideline
   I will use them always, even if there is only one instruction. `if` (//something) {  //doSomething }
   
   If there's more than one intruction, `Allman` style will be used:
+  
   `if` (...)
+  
   {
+  
       ...
+      
   }
 #### Increment and decrement
   
