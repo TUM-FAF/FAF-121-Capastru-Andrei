@@ -84,6 +84,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 
 LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
+	static HFONT hFont;
+	static bool fontDeterminer;
 	switch(msg)
 	{
 		case WM_GETMINMAXINFO:
@@ -123,23 +125,14 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				(HMENU)IDC_CHANGE_BUTTON,
 				GetModuleHandle(NULL),
 				NULL);
+
+			hFont = CreateFont(20, 0, 10, 1, 0, FALSE, 0, 0, 0, 0, 2, 0, 0, "Calibri");
+			SendMessage(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), WM_SETFONT, (WPARAM)hFont, TRUE);
 		}
 		break;
 		//end wm_create
 
-		case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT pDIS = (LPDRAWITEMSTRUCT)lParam;
-			if (pDIS->hwndItem == hWnd)
-			{
-				SetTextColor(pDIS->hDC, RGB(100, 0, 100));
-				WCHAR staticText[99];
-				int len = SendMessage(hWnd, WM_GETTEXT, 
-					ARRAYSIZE(staticText), (LPARAM)staticText);
-				TextOut(pDIS->hDC, pDIS->rcItem.left, pDIS->rcItem.top, "SOMETEXT", len);
-			}
-			return TRUE;
-		}
+	
 		case WM_COMMAND:
 		{
 			switch(LOWORD(wParam))
@@ -160,6 +153,11 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 					GetClientRect(hWnd, &rect);
 					HBRUSH brush = CreateSolidBrush(RGB(c, b, a));
 					SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, (LONG)brush);
+					
+					fontDeterminer=!fontDeterminer;
+					hFont = CreateFont(20, 0, 0, 0, 0, FALSE, 0, 0, 0, 0, 0, 0, 0, (fontDeterminer ? "Calibri" : "Courier New"));
+					SendMessage(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), WM_SETFONT, (WPARAM)hFont, TRUE);
+
 					InvalidateRect(hWnd, &rect, TRUE);
 				}
 				break;
@@ -191,6 +189,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				200, 
 				100, 
 				SWP_NOSIZE);
+			
         }
 		break;
 
