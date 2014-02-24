@@ -84,8 +84,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 
 LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
+	static HICON hIconExit;
 	static HFONT hFont;
 	static bool fontDeterminer;
+	static HWND hEdit;
+	static char buffer[256];
 	switch(msg)
 	{
 		case WM_GETMINMAXINFO:
@@ -103,11 +106,11 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 		case WM_CREATE:
 		{
-			CreateWindowEx(WS_EX_CLIENTEDGE,
+			hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
 				"EDIT",
 				"",
 				WS_CHILD|WS_VISIBLE|
-				ES_MULTILINE|ES_AUTOVSCROLL,
+				WS_EX_CLIENTEDGE|ES_MULTILINE,
 				50,
 				100,
 				200,
@@ -117,22 +120,36 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				GetModuleHandle(NULL),
 				NULL);
 
-			CreateWindowEx(NULL,
+			HGDIOBJ hfDefault=GetStockObject(2);
+			SendMessage(hEdit,
+				WM_SETFONT,
+				(WPARAM)hfDefault,
+				MAKELPARAM(FALSE,0));
+			
+			SendMessage(hEdit,
+				WM_SETTEXT,
+				NULL,
+				(LPARAM)"Insert text here...");
+
+
+			HWND hExitButton = CreateWindowEx(NULL,
 				"BUTTON",
 				"EXIT",
 				WS_TABSTOP|WS_VISIBLE|SS_CENTER |
 				WS_CHILD|BS_DEFPUSHBUTTON,
-				0, 0, 100, 24,
+				0, 0, 100, 40,
 				hWnd,
 				(HMENU)IDC_EXIT_BUTTON,
 				GetModuleHandle(NULL),
 				NULL);
 
+			hIconExit = LoadIcon (NULL, IDI_WARNING);
+			SendMessage(hExitButton , BM_SETIMAGE, IMAGE_ICON,(LPARAM)hIconExit);
+
 			CreateWindowEx(NULL,
 				"BUTTON",
 				"ChangeEverything!",
-				WS_TABSTOP|WS_VISIBLE|SS_CENTER |
-				WS_CHILD|BS_DEFPUSHBUTTON,
+				WS_TABSTOP | WS_VISIBLE | SS_CENTER | WS_CHILD | BS_DEFPUSHBUTTON,
 				0, 0, 200, 100,
 				hWnd,
 				(HMENU)IDC_CHANGE_BUTTON,
@@ -193,7 +210,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			SetWindowPos(GetDlgItem(hWnd, IDC_EXIT_BUTTON), 
 				HWND_TOP, 
 				(rcWind.right-rcWind.left)/2 - 50,
-				(rcWind.bottom-rcWind.top) - 100, 
+				(rcWind.bottom-rcWind.top) - 80, 
 				0, 
 				0, 
 				SWP_NOSIZE);
@@ -208,7 +225,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			SetWindowPos(GetDlgItem(hWnd, IDC_EDIT), 
 				HWND_TOP, 
-				(rcWind.right-rcWind.left)/2 - (rcWind.right-rcWind.left)/3,
+				30,
 				(rcWind.bottom-rcWind.top)/2, 
 				200, 
 				100, 
@@ -216,16 +233,16 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			
         }
 		break;
+		case WM_CLOSE:
+			MessageBox(hWnd, "Click the exit button in the bottom.", "No...", MB_OK|MB_ICONINFORMATION);
+			return 0;
+		break;
 
 		case WM_DESTROY:
-		{
-			PostQuitMessage(0);
-			return 0;
-		}
+			PostQuitMessage(0);		
 		break;
+
 		
-		default:
-			break;
 	}
 
 	return DefWindowProc(hWnd,msg,wParam,lParam);
