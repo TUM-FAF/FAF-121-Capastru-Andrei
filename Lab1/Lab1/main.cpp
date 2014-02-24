@@ -103,6 +103,19 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 		case WM_CREATE:
 		{
+			CreateWindowEx(WS_EX_CLIENTEDGE,
+				"EDIT",
+				"",
+				WS_CHILD|WS_VISIBLE|
+				ES_MULTILINE|ES_AUTOVSCROLL,
+				50,
+				100,
+				200,
+				100,
+				hWnd,
+				(HMENU)IDC_EDIT,
+				GetModuleHandle(NULL),
+				NULL);
 
 			CreateWindowEx(NULL,
 				"BUTTON",
@@ -158,6 +171,9 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 					hFont = CreateFont(20, 0, 0, 0, 0, FALSE, 0, 0, 0, 0, 0, 0, 0, (fontDeterminer ? "Calibri" : "Courier New"));
 					SendMessage(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), WM_SETFONT, (WPARAM)hFont, TRUE);
 
+					hFont = CreateFont(19, 0, 0, 0, 0, FALSE, 0, 0, 0, 0, 0, 0, 0, (fontDeterminer ? "Courier New" : "Times New Roman"));
+					SendMessage(GetDlgItem(hWnd, IDC_EDIT), WM_SETFONT, (WPARAM)hFont, TRUE);
+
 					InvalidateRect(hWnd, &rect, TRUE);
 				}
 				break;
@@ -186,6 +202,14 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				HWND_TOP, 
 				(rcWind.right-rcWind.left)/2 - 100,
 				(rcWind.bottom-rcWind.top)/2 - (rcWind.bottom-rcWind.top)/3, 
+				0, 
+				0, 
+				SWP_NOSIZE);
+
+			SetWindowPos(GetDlgItem(hWnd, IDC_EDIT), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 - (rcWind.right-rcWind.left)/3,
+				(rcWind.bottom-rcWind.top)/2, 
 				200, 
 				100, 
 				SWP_NOSIZE);
