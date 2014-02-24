@@ -4,11 +4,13 @@ name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include <windows.h>
+#include <stdlib.h>
 
 
-#define IDC_MAIN_BUTTON	101			// Button identifier
-#define IDC_MAIN_EDIT	102			// Edit box identifier
-#define IDC_EXIT_BUTTON 103			// Exit Button
+#define IDC_EDIT			101		// Edit box identifier
+#define IDC_EDIT_CUSTOM		100		// 
+#define IDC_CHANGE_BUTTON	102	    // ChangerIdentifier
+#define IDC_EXIT_BUTTON		103		// Exit Button
     
 LRESULT CALLBACK WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
@@ -89,13 +91,108 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 			int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 			MINMAXINFO* mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = 450;
-			mmi->ptMinTrackSize.y = 250;
+			mmi->ptMinTrackSize.x = 3*screenWidth/6;
+			mmi->ptMinTrackSize.y = 3*screenHeight/7;
 			mmi->ptMaxTrackSize.x = screenWidth - 2*screenWidth/6;
 			mmi->ptMaxTrackSize.y = screenHeight - 2*screenHeight/7;
 		}
 		break;
 		//end getminmaxinfo
+
+		case WM_CREATE:
+		{
+
+			CreateWindowEx(NULL,
+				"BUTTON",
+				"EXIT",
+				WS_TABSTOP|WS_VISIBLE|SS_CENTER |
+				WS_CHILD|BS_DEFPUSHBUTTON,
+				0, 0, 100, 24,
+				hWnd,
+				(HMENU)IDC_EXIT_BUTTON,
+				GetModuleHandle(NULL),
+				NULL);
+
+			CreateWindowEx(NULL,
+				"BUTTON",
+				"ChangeEverything!",
+				WS_TABSTOP|WS_VISIBLE|SS_CENTER |
+				WS_CHILD|BS_DEFPUSHBUTTON,
+				0, 0, 200, 100,
+				hWnd,
+				(HMENU)IDC_CHANGE_BUTTON,
+				GetModuleHandle(NULL),
+				NULL);
+		}
+		break;
+		//end wm_create
+
+		case WM_DRAWITEM:
+		{
+			LPDRAWITEMSTRUCT pDIS = (LPDRAWITEMSTRUCT)lParam;
+			if (pDIS->hwndItem == hWnd)
+			{
+				SetTextColor(pDIS->hDC, RGB(100, 0, 100));
+				WCHAR staticText[99];
+				int len = SendMessage(hWnd, WM_GETTEXT, 
+					ARRAYSIZE(staticText), (LPARAM)staticText);
+				TextOut(pDIS->hDC, pDIS->rcItem.left, pDIS->rcItem.top, "SOMETEXT", len);
+			}
+			return TRUE;
+		}
+		case WM_COMMAND:
+		{
+			switch(LOWORD(wParam))
+            {
+				case IDC_EXIT_BUTTON:
+				{
+					PostQuitMessage(0);
+					return 0;
+				}
+				break;
+				case IDC_CHANGE_BUTTON:
+				{
+					static int a,b,c;
+					a=rand() % 255;
+					b=rand() % 255;
+					c=rand() % 255;
+					RECT rect;
+					GetClientRect(hWnd, &rect);
+					HBRUSH brush = CreateSolidBrush(RGB(c, b, a));
+					SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, (LONG)brush);
+					InvalidateRect(hWnd, &rect, TRUE);
+				}
+				break;
+				
+			default:
+			break;
+			}
+
+		}
+		break;
+		//end wm_command
+		case WM_SIZE:
+        {
+			RECT rcWind;
+			GetWindowRect(hWnd, &rcWind);
+
+			SetWindowPos(GetDlgItem(hWnd, IDC_EXIT_BUTTON), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 - 50,
+				(rcWind.bottom-rcWind.top) - 100, 
+				0, 
+				0, 
+				SWP_NOSIZE);
+			
+			SetWindowPos(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 - 100,
+				(rcWind.bottom-rcWind.top)/2 - (rcWind.bottom-rcWind.top)/3, 
+				200, 
+				100, 
+				SWP_NOSIZE);
+        }
+		break;
 
 		case WM_DESTROY:
 		{
@@ -103,6 +200,9 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			return 0;
 		}
 		break;
+		
+		default:
+			break;
 	}
 
 	return DefWindowProc(hWnd,msg,wParam,lParam);
