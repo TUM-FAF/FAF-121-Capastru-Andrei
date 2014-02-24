@@ -13,6 +13,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_EXIT_BUTTON		103		// Exit Button
     
 LRESULT CALLBACK WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
+int GetTextSize (LPSTR );
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShowCmd)
 {
@@ -21,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 	winClass.cbClsExtra=NULL;
 	winClass.cbSize=sizeof(WNDCLASSEX);
 	winClass.cbWndExtra=NULL;
-	winClass.hbrBackground=(HBRUSH)COLOR_WINDOW;
+	winClass.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
 	winClass.hCursor=LoadCursor(NULL,IDC_ARROW);
 	winClass.hIcon=NULL;
 	winClass.hIconSm=NULL;
@@ -89,6 +90,9 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 	static bool fontDeterminer;
 	static HWND hEdit;
 	static char buffer[256];
+	HDC hDC;
+
+
 	switch(msg)
 	{
 		case WM_GETMINMAXINFO:
@@ -100,6 +104,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			mmi->ptMinTrackSize.y = 3*screenHeight/7;
 			mmi->ptMaxTrackSize.x = screenWidth - 2*screenWidth/6;
 			mmi->ptMaxTrackSize.y = screenHeight - 2*screenHeight/7;
+			
 		}
 		break;
 		//end getminmaxinfo
@@ -117,6 +122,20 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				100,
 				hWnd,
 				(HMENU)IDC_EDIT,
+				GetModuleHandle(NULL),
+				NULL);
+			
+			CreateWindowEx(WS_EX_CLIENTEDGE, //simple text input
+				"EDIT",
+				"",
+				WS_CHILD|WS_VISIBLE|
+				WS_EX_CLIENTEDGE|ES_MULTILINE,
+				0,
+				0,
+				40,
+				40,
+				hWnd,
+				(HMENU)130,
 				GetModuleHandle(NULL),
 				NULL);
 
@@ -148,9 +167,9 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			CreateWindowEx(NULL,
 				"BUTTON",
-				"ChangeEverything!",
+				"Update!",
 				WS_TABSTOP | WS_VISIBLE | SS_CENTER | WS_CHILD | BS_DEFPUSHBUTTON,
-				0, 0, 200, 100,
+				0, 0, 200, 75,
 				hWnd,
 				(HMENU)IDC_CHANGE_BUTTON,
 				GetModuleHandle(NULL),
@@ -158,6 +177,10 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			hFont = CreateFont(20, 0, 10, 1, 0, FALSE, 0, 0, 0, 0, 2, 0, 0, "Calibri");
 			SendMessage(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), WM_SETFONT, (WPARAM)hFont, TRUE);
+
+
+			
+
 		}
 		break;
 		//end wm_create
@@ -183,6 +206,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 					GetClientRect(hWnd, &rect);
 					HBRUSH brush = CreateSolidBrush(RGB(c, b, a));
 					SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, (LONG)brush);
+					SetClassLongPtr(hEdit, GCLP_HBRBACKGROUND, (LONG)brush);
 					
 					fontDeterminer=!fontDeterminer;
 					hFont = CreateFont(20, 0, 0, 0, 0, FALSE, 0, 0, 0, 0, 0, 0, 0, (fontDeterminer ? "Calibri" : "Courier New"));
@@ -190,6 +214,11 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 					hFont = CreateFont(19, 0, 0, 0, 0, FALSE, 0, 0, 0, 0, 0, 0, 0, (fontDeterminer ? "Courier New" : "Times New Roman"));
 					SendMessage(GetDlgItem(hWnd, IDC_EDIT), WM_SETFONT, (WPARAM)hFont, TRUE);
+				
+					SendMessage(hEdit,
+						WM_GETTEXT,
+						sizeof(buffer)/sizeof(buffer[0]),
+						reinterpret_cast<LPARAM>(buffer));
 
 					InvalidateRect(hWnd, &rect, TRUE);
 				}
@@ -202,6 +231,38 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		}
 		break;
 		//end wm_command
+
+		case WM_PAINT:
+		{
+			PAINTSTRUCT ps;			
+
+			hDC = BeginPaint(hWnd, &ps);
+				RECT rect;
+				GetClientRect(hWnd, &rect);
+				if (buffer[0]) 
+				{
+					TextOut(hDC, 	
+						(rect.right-rect.left)/2 -GetTextSize (const_cast<LPSTR>(buffer))*3-10,
+						(rect.bottom-rect.top)/2-60,
+						buffer, GetTextSize (const_cast<LPSTR>(buffer)));
+				}
+			
+				int color = rand() % 999999;
+				SetTextColor(hDC, color);
+				TextOut(hDC, 	
+						(rect.right-rect.left)/2 -GetTextSize (const_cast<LPSTR>(buffer))*3-10,
+						(rect.bottom-rect.top)/2+80,
+						buffer, GetTextSize (const_cast<LPSTR>(buffer)));
+				
+			
+			EndPaint(hWnd, &ps);
+			
+		
+					
+
+
+		}break;
+		//end wm_paint
 		case WM_SIZE:
         {
 			RECT rcWind;
@@ -217,16 +278,16 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			
 			SetWindowPos(GetDlgItem(hWnd, IDC_CHANGE_BUTTON), 
 				HWND_TOP, 
-				(rcWind.right-rcWind.left)/2 - 100,
-				(rcWind.bottom-rcWind.top)/2 - (rcWind.bottom-rcWind.top)/3, 
+				(rcWind.right-rcWind.left)/2 -100,
+				(rcWind.bottom-rcWind.top)/2 - (rcWind.bottom-rcWind.top)/3 - (rcWind.bottom-rcWind.top)/6, 
 				0, 
 				0, 
 				SWP_NOSIZE);
 
 			SetWindowPos(GetDlgItem(hWnd, IDC_EDIT), 
 				HWND_TOP, 
-				30,
-				(rcWind.bottom-rcWind.top)/2, 
+				(rcWind.right-rcWind.left)/2 -100,
+				(rcWind.bottom-rcWind.top)/2-50, 
 				200, 
 				100, 
 				SWP_NOSIZE);
@@ -246,4 +307,13 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 	}
 
 	return DefWindowProc(hWnd,msg,wParam,lParam);
+}
+
+int GetTextSize (LPSTR a0)
+{
+    for (int iLoopCounter = 0; ;iLoopCounter++)
+    {
+        if (a0 [iLoopCounter] == '\0')
+            return iLoopCounter;
+    }
 }
