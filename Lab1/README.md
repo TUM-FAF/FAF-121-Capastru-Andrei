@@ -4,7 +4,8 @@ Application consists of two columns, each containing:
 *  A text field
 *  A button
 *  An edit field
-*  
+
+
 #### Features
 *  When clicking on "Update" button it:
 *  changes color of the background (randomly);
