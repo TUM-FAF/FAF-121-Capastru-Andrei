@@ -1,9 +1,10 @@
 #### Laboratory Work №1
 The purpose of this laboratory work was for us to get acquainted with Windows API. 
 Application consists of two columns, each containing:
-* A text field
+*  A text field
 *  A button
 *  An edit field
+*  
 #### Features
 *  When clicking on "Update" button it:
 *  changes color of the background (randomly);
@@ -16,4 +17,4 @@ Application consists of two columns, each containing:
 size for main window.
 *  If clicked the X (exit) from top bar, a message box will be thrown.
 *  The size of the window is limited to a rectangle that is proportional with the display screen, done
-with WM_GETMINMAXINFO. 
+with `WM_GETMINMAXINFO`. 
