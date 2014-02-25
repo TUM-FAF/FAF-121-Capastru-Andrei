@@ -6,9 +6,9 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <windows.h>
 #include <stdlib.h>
 
+#define SCROLL_1 100
 
 LRESULT CALLBACK WinProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int nShowCmd)
 {
@@ -77,6 +77,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg)
 	{
+
 		case WM_GETMINMAXINFO:
 		{
 			int screenHeight = GetSystemMetrics(SM_CYSCREEN);
@@ -91,7 +92,25 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 		case WM_CREATE:
 		{
-			
+			HINSTANCE hInst = (HINSTANCE) GetWindowLong(hWnd, GWL_HINSTANCE);
+			RECT rect;
+			GetClientRect(hWnd, &rect);
+			HWND hScroll =    CreateWindowEx(0L,
+                       "SCROLLBAR",
+                       NULL, // There is no text to display
+                       WS_CHILD | WS_VISIBLE,
+					   rect.right-40,
+                       rect.top,
+					   rect.right-20,
+					   rect.bottom-20,
+                       hWnd,
+                       (HMENU)SCROLL_1,
+                       hInst,
+                       NULL);
+
+			SetScrollRange(hScroll, SB_CTL , 0, 255, false);
+			SetScrollPos(hScroll, SB_CTL , 0, FALSE);
+
 		}
 		break;
 		//end wm_create
@@ -101,7 +120,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			switch(LOWORD(wParam))
             {
 
-			}
+			}break;
 		}break;
 		//end wm_command
 
