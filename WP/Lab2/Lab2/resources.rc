@@ -1,0 +1,25 @@
+#include "resources.h"
+
+MenuDemo MENU
+     {
+     POPUP "&File"
+          {
+          MENUITEM "&RESTART",               IDM_RESTART
+          MENUITEM SEPARATOR
+          MENUITEM "&Exit",                  IDM_EXIT
+          }
+    POPUP "&Background"
+          {
+          MENUITEM "&White",                 IDM_WHITE, CHECKED
+          MENUITEM "&Lt Gray",               IDM_LTGRAY
+          MENUITEM "&Gray",                  IDM_GRAY
+          MENUITEM "&Dk Gray",               IDM_DKGRAY
+          MENUITEM "&Black",                 IDM_BLACK
+		  MENUITEM "&Random color"			 IDM_RANDOM
+          }
+     POPUP "&Help"
+          {
+          MENUITEM "&Help",				     IDM_HELP
+          MENUITEM "&About",				 IDM_ABOUT
+          }
+     }
