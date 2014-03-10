@@ -1,5 +1,9 @@
 #define Menu		   1000
 #define IDC_MAINSCROLL 100 
+#define IDH_BGCHANGER  101
+#define IDH_EXITHOTKEY 102
+
+#define IDC_EDIT	103
 
 #define IDM_RESTART  1
 #define IDM_EXIT     2
