@@ -1,3 +1,4 @@
+#define Menu		   1000
 #define IDC_MAINSCROLL 100 
 
 #define IDM_RESTART  1

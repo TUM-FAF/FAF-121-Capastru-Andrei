@@ -1,6 +1,6 @@
 #include "resources.h"
 
-MenuDemo MENU
+Menu MENU
      {
      POPUP "&File"
           {

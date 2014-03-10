@@ -20,12 +20,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 	winClass.cbWndExtra=NULL;
 	winClass.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
 	winClass.hCursor=LoadCursor(NULL,IDC_ARROW);
-	winClass.hIcon=NULL;
-	winClass.hIconSm=NULL;
+	winClass.hIcon=LoadIcon (NULL, IDI_APPLICATION);
+	winClass.hIconSm=LoadIcon (NULL, IDI_APPLICATION);
 	winClass.hInstance=hInstance;
 	winClass.lpfnWndProc=(WNDPROC)WinProc;
 	winClass.lpszClassName="Window Class";
-	winClass.lpszMenuName=NULL;
+	winClass.lpszMenuName=MAKEINTRESOURCE(Menu);
 	winClass.style=CS_HREDRAW|CS_VREDRAW;
 
 	if(!RegisterClassEx(&winClass))
@@ -83,7 +83,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		WHITE_BRUSH,  LTGRAY_BRUSH, GRAY_BRUSH,
 		DKGRAY_BRUSH, BLACK_BRUSH 
 	};
-     static int  iSelection = IDM_WHITE ;
+    static int  iSelection = IDM_WHITE ;
     static HMENU  hMenu;
 
 	switch(msg)
@@ -105,8 +105,6 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		case WM_CREATE:
 		{
 			SetScrollRange(hWnd, SB_VERT, 0, 100, FALSE);
-			
-			
 		}
 		break;
 		//end wm_create
@@ -123,6 +121,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			}
 		}break;
 		//end wm_vscroll
+
 		case WM_COMMAND:
 		{
 			hMenu = GetMenu (hWnd) ;
@@ -142,11 +141,9 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				case IDM_GRAY :           //   through IDM_BLACK are
 				case IDM_DKGRAY :         //   consecutive numbers in
 				case IDM_BLACK :          //   the order shown here.
-
 						CheckMenuItem (hMenu, iSelection, MF_UNCHECKED) ;
 						iSelection = LOWORD (wParam) ;
 						CheckMenuItem (hMenu, iSelection, MF_CHECKED) ;
-     
 						SetClassLong (hWnd, GCL_HBRBACKGROUND,
 							(LONG) GetStockObject 
 								(iColorID[LOWORD (wParam) - IDM_WHITE])) ;
