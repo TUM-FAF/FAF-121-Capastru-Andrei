@@ -124,33 +124,43 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 		case WM_COMMAND:
 		{
-			hMenu = GetMenu (hWnd) ;
-
-			switch (LOWORD (wParam))
+			hMenu = GetMenu(hWnd) ;
+			static int red, green, blue;
+			red = rand() % 255;
+			green = rand() % 255;
+			blue = rand() % 255;
+			HBRUSH brush = CreateSolidBrush(RGB(red, green, blue));
+			switch (LOWORD(wParam))
 				{
-				case IDM_RESTART :
+				case IDM_RESTART:
+					{
 						MessageBeep (0) ;
-						return 0 ;
+					}break;
 
-				case IDM_EXIT :
+				case IDM_EXIT:{
 						SendMessage (hWnd, WM_CLOSE, 0, 0L) ;
 						return 0 ;
-
-				case IDM_WHITE :          // Note: Logic below
-				case IDM_LTGRAY :         //   assumes that IDM_WHITE
-				case IDM_GRAY :           //   through IDM_BLACK are
-				case IDM_DKGRAY :         //   consecutive numbers in
-				case IDM_BLACK :          //   the order shown here.
+							  }
+				case IDM_RANDOM:
+						CheckMenuItem (hMenu, iSelection, MF_UNCHECKED) ;
+						iSelection = LOWORD (wParam) ;
+						CheckMenuItem (hMenu, iSelection, MF_CHECKED) ;
+						SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, LONG(brush));
+						InvalidateRect (hWnd, NULL, TRUE) ;
+						return 0 ;
+				case IDM_WHITE :          
+				case IDM_LTGRAY :         
+				case IDM_GRAY :           
+				case IDM_DKGRAY :         
+				case IDM_BLACK :         
 						CheckMenuItem (hMenu, iSelection, MF_UNCHECKED) ;
 						iSelection = LOWORD (wParam) ;
 						CheckMenuItem (hMenu, iSelection, MF_CHECKED) ;
 						SetClassLong (hWnd, GCL_HBRBACKGROUND,
 							(LONG) GetStockObject 
-								(iColorID[LOWORD (wParam) - IDM_WHITE])) ;
-
+								(iColorID[LOWORD (wParam) - IDM_WHITE])) ; //select color iColorID[index-1]  
 						InvalidateRect (hWnd, NULL, TRUE) ;
 						return 0 ;
-
 				case IDM_HELP :
 						MessageBox (hWnd, "Help not yet implemented!",
 							"Lab#2", MB_ICONEXCLAMATION | MB_OK) ;
