@@ -1,9 +1,11 @@
-#### Laboratory Work №1
-The purpose of this laboratory work was for us to get acquainted with Windows API. 
-Application consists of two columns, each containing:
-* A text field
-*  A button
-*  An edit field
+Laboratory Work №1
+==================
+
+The purpose of this laboratory work was for us to get acquainted with Windows API, message handling, parent and child windows creating. 
+
+I've used limits of maximization and minimzation, because the elements in the window are responsive to size modification of the parent window. It was done using 'WM_GETMINMAXINFO' and 'WM_SIZE' messages.
+
+
 #### Features
 *  When clicking on "Update" button it:
 *  changes color of the background (randomly);
