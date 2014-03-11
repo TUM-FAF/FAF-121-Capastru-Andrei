@@ -1,25 +1,28 @@
-#include "resources.h"
+#include "resource.h"
+
+IDI_ICON ICON "favicon.ico"
 
 Menu MENU
-     {
-     POPUP "&File"
-          {
-          MENUITEM "&RESTART",               IDM_RESTART
-          MENUITEM SEPARATOR
-          MENUITEM "&Exit",                  IDM_EXIT
-          }
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&RESTART",                    IDM_RESTART
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",                       IDM_EXIT
+    END
     POPUP "&Background"
-          {
-          MENUITEM "&White",                 IDM_WHITE, CHECKED
-          MENUITEM "&Light Gray",            IDM_LTGRAY
-          MENUITEM "&Gray",                  IDM_GRAY
-          MENUITEM "&Dark Gray",             IDM_DKGRAY
-          MENUITEM "&Black",                 IDM_BLACK
-		  MENUITEM "&Random color"			 IDM_RANDOM
-          }
-     POPUP "&Help"
-          {
-          MENUITEM "&Help",				     IDM_HELP
-          MENUITEM "&About",				 IDM_ABOUT
-          }
-     }
+    BEGIN
+        MENUITEM "&White",                      IDM_WHITE, CHECKED
+        MENUITEM "&Light Gray",                 IDM_LTGRAY
+        MENUITEM "&Gray",                       IDM_GRAY
+        MENUITEM "&Dark Gray",                  IDM_DKGRAY
+        MENUITEM "&Black",                      IDM_BLACK
+        MENUITEM "&Random color",               IDM_RANDOM
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help",                       IDM_HELP
+        MENUITEM "&About",                      IDM_ABOUT
+    END
+END
+

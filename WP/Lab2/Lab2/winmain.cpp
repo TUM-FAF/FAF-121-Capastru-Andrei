@@ -20,8 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 	winClass.cbWndExtra=NULL;
 	winClass.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
 	winClass.hCursor=LoadCursor(NULL,IDC_ARROW);
-	winClass.hIcon=LoadIcon (NULL, IDI_APPLICATION);
-	winClass.hIconSm=LoadIcon (NULL, IDI_APPLICATION);
+	winClass.hIcon=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));
+	winClass.hIconSm=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));
 	winClass.hInstance=hInstance;
 	winClass.lpfnWndProc=(WNDPROC)WinProc;
 	winClass.lpszClassName="Window Class";
@@ -112,10 +112,25 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			mmi->ptMaxTrackSize.y = screenHeight - 2*screenHeight/7;
 		}break;
 		//end getminmaxinfo
+		
 
 		case WM_CREATE:
 		{
+			CreateWindowEx(0L, "SCROLLBAR",
+						   NULL, // There is no text to display
+						   WS_CHILD | WS_VISIBLE,
+						   50,
+						   20,
+						   220,
+						   21,
+						   hWnd,
+						   (HMENU)IDC_MAINSCROLL,
+						   GetModuleHandle(NULL),
+						   NULL);
+
 			SetScrollRange(hWnd, SB_VERT, 0, 100, FALSE);
+			SetScrollRange(GetDlgItem(NULL, IDC_MAINSCROLL) , SB_HORZ, 0, 100, FALSE);
+
 			hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
 				"EDIT",
 				"",
@@ -241,7 +256,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 							InvalidateRect (hWnd, NULL, TRUE) ;
 							return 0 ;
 					case IDM_HELP :
-							MessageBox (hWnd, "CTRL+SPACE for changing background color\n CTRL+M",
+							MessageBox (hWnd, "CTRL+SPACE - change background color\nCTRL+M - exit",
 								"Lab#2", MB_ICONEXCLAMATION | MB_OK) ;
 							return 0 ;
 
