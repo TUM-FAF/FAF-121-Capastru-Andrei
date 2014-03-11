@@ -92,9 +92,11 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		DKGRAY_BRUSH, BLACK_BRUSH };
     static int  iSelection = IDM_WHITE ;
     static HMENU  hMenu;
-
 	static HWND hEdit;
 
+	SCROLLINFO si;
+	static int prevX = 0;
+	static int prevY= 0;
 	static int addX=0; // 0 is initial
 	static int addY=0; // 0 is initial
 	switch(msg)
@@ -121,10 +123,29 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 						   WS_CHILD | WS_VISIBLE,
 						   50,
 						   20,
-						   220,
+						   420,
 						   21,
 						   hWnd,
 						   (HMENU)IDC_MAINSCROLL,
+						   GetModuleHandle(NULL),
+						   NULL);
+
+			si.nMax = 255;
+			si.nMin = 0;
+			si.nPos = 0;
+			si.cbSize = sizeof(SCROLLINFO);
+			si.fMask = SIF_RANGE | SIF_POS;
+			SetScrollInfo(GetDlgItem(hWnd, IDC_MAINSCROLL), SB_CTL, &si, TRUE);
+			SetScrollInfo(GetDlgItem(hWnd, IDC_SCROLL), SB_CTL, &si, TRUE);
+			CreateWindowEx(0L, "SCROLLBAR",
+						   NULL, // There is no text to display
+						   WS_CHILD | WS_VISIBLE,
+						   50,
+						   20,
+						   420,
+						   21,
+						   hWnd,
+						   (HMENU)IDC_SCROLL,
 						   GetModuleHandle(NULL),
 						   NULL);
 
@@ -189,6 +210,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			}
 		}break;
 		//end wm_vscroll
+
 		case WM_HSCROLL:
 		{
 			switch(LOWORD(wParam))
@@ -201,8 +223,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 					}break;
 			}
 		}break;
-
-
+		//end wm_hscroll
 
 		case WM_HOTKEY:
 			{
@@ -332,14 +353,31 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				(rcWind.bottom-rcWind.top)/2-50+addY, 
 				200, 
 				100, 
-				SWP_NOSIZE);
+				SWP_NOSIZE); // editbox position
+
 			SetWindowPos(GetDlgItem(hWnd, IDC_LISTBOX), 
 				HWND_TOP, 
 				(rcWind.right-rcWind.left)/2 -200+addX,
 				(rcWind.bottom-rcWind.top)/2-50+addY, 
 				200, 
 				100, 
-				SWP_NOSIZE);
+				SWP_NOSIZE); //lisbox position
+
+			SetWindowPos(GetDlgItem(hWnd, IDC_MAINSCROLL), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 -200+addX,
+				(rcWind.bottom-rcWind.top)/2+70+addY, 
+				200, 
+				600, 
+				SWP_NOSIZE); //mainscrollbar position
+
+			SetWindowPos(GetDlgItem(hWnd, IDC_SCROLL), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 -200+addX,
+				(rcWind.bottom-rcWind.top)/2-90+addY, 
+				200, 
+				600, 
+				SWP_NOSIZE); //scrollbar position
 			
         }break;
 		//end wm_size
