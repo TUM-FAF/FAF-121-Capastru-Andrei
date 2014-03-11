@@ -20,8 +20,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 	winClass.cbWndExtra=NULL;
 	winClass.hbrBackground=(HBRUSH)GetStockObject(WHITE_BRUSH);
 	winClass.hCursor=LoadCursor(NULL,IDC_ARROW);
-	winClass.hIcon=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));
-	winClass.hIconSm=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));
+	winClass.hIcon=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));//icon
+	winClass.hIconSm=LoadIcon (hInstance, MAKEINTRESOURCE(IDI_ICON));//icon
 	winClass.hInstance=hInstance;
 	winClass.lpfnWndProc=(WNDPROC)WinProc;
 	winClass.lpszClassName="Window Class";
@@ -129,7 +129,24 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 						   NULL);
 
 			SetScrollRange(hWnd, SB_VERT, 0, 100, FALSE);
-			SetScrollRange(GetDlgItem(NULL, IDC_MAINSCROLL) , SB_HORZ, 0, 100, FALSE);
+			
+			CreateWindowEx(WS_EX_CLIENTEDGE,
+				"LISTBOX",
+				NULL,
+				WS_CHILD | WS_VISIBLE| LBS_NOTIFY|
+				LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL, 
+				50,
+				100,
+				200,
+				100,
+				hWnd,
+				(HMENU)IDC_LISTBOX,
+				GetModuleHandle(NULL),
+				NULL);
+			SendMessage(GetDlgItem(hWnd, IDC_LISTBOX), LB_ADDSTRING,TRUE, (LPARAM)"GRAY");
+			SendMessage(GetDlgItem(hWnd, IDC_LISTBOX), LB_ADDSTRING,TRUE, (LPARAM)"White");
+			SendMessage(GetDlgItem(hWnd, IDC_LISTBOX), LB_ADDSTRING,TRUE, (LPARAM)"BLACK");
+
 
 			hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
 				"EDIT",
@@ -225,6 +242,10 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 							InvalidateRect (hWnd, NULL, TRUE) ;
 							MessageBeep (0) ;
 							addX = addY = 0;
+							SendMessage(hEdit,
+								WM_SETTEXT,
+								NULL,
+								(LPARAM)"Insert text here...");
 							SendMessage(hWnd, WM_SIZE, 0L, 0L);
 						}break;
 
@@ -246,7 +267,8 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 					case IDM_LTGRAY :         
 					case IDM_GRAY :           
 					case IDM_DKGRAY :         
-					case IDM_BLACK :         
+					case IDM_BLACK :
+						{
 							CheckMenuItem (hMenu, iSelection, MF_UNCHECKED) ;
 							iSelection = LOWORD (wParam) ;
 							CheckMenuItem (hMenu, iSelection, MF_CHECKED) ;
@@ -254,16 +276,39 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 								(LONG) GetStockObject 
 									(iColorID[LOWORD (wParam) - IDM_WHITE])) ; //select color iColorID[index-1]  
 							InvalidateRect (hWnd, NULL, TRUE) ;
-							return 0 ;
-					case IDM_HELP :
+						}break;	
+					case IDM_HELP:
+						{
 							MessageBox (hWnd, "CTRL+SPACE - change background color\nCTRL+M - exit",
 								"Lab#2", MB_ICONEXCLAMATION | MB_OK) ;
-							return 0 ;
-
-					case IDM_ABOUT :
+						}break;
+					case IDM_ABOUT:
+						{
 							MessageBox (hWnd, "Developed by @andrewcap",
-								"Lab#2", MB_ICONINFORMATION | MB_OK) ;
-							return 0 ;
+								"Lab#2", MB_ICONINFORMATION | MB_OK);
+						}break;
+					case IDC_LISTBOX:
+						{
+							switch(HIWORD(wParam))
+							{
+								case LBN_DBLCLK:
+									int listElemId= SendMessage(GetDlgItem(hWnd, IDC_LISTBOX), LB_GETCURSEL, 0,0);
+									{
+										if( listElemId == 0 )
+										{
+											SendMessage(hWnd, WM_COMMAND, (WPARAM)IDM_GRAY, NULL); 
+										}
+										if( listElemId == 1 )
+										{
+											SendMessage(hWnd, WM_COMMAND, (WPARAM)IDM_WHITE, NULL); 
+										}
+										if( listElemId == 2 )
+										{
+											SendMessage(hWnd, WM_COMMAND, (WPARAM)IDM_BLACK, NULL); 
+										}
+									}break;
+							}
+						}break;
 				}
 				//end switch()
 			}break;
@@ -283,7 +328,14 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			SetWindowPos(GetDlgItem(hWnd, IDC_EDIT), 
 				HWND_TOP, 
-				(rcWind.right-rcWind.left)/2 -100+addX,
+				(rcWind.right-rcWind.left)/2 +20+addX,
+				(rcWind.bottom-rcWind.top)/2-50+addY, 
+				200, 
+				100, 
+				SWP_NOSIZE);
+			SetWindowPos(GetDlgItem(hWnd, IDC_LISTBOX), 
+				HWND_TOP, 
+				(rcWind.right-rcWind.left)/2 -200+addX,
 				(rcWind.bottom-rcWind.top)/2-50+addY, 
 				200, 
 				100, 

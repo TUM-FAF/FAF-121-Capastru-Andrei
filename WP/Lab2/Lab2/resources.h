@@ -4,6 +4,7 @@
 #define IDH_EXITHOTKEY 102
 #define IDI_ICON	   104
 #define IDC_EDIT	   103
+#define IDC_LISTBOX	   105
 
 #define IDM_RESTART  1
 #define IDM_EXIT     2
