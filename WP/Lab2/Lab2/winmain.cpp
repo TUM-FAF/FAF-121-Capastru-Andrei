@@ -67,8 +67,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst,LPSTR lpCmdLine,int 
 	}
 	
 	//registering hotkey
+	
 	RegisterHotKey(hWnd, IDH_BGCHANGER, MOD_CONTROL, VK_SPACE);
 	RegisterHotKey(hWnd, IDH_EXITHOTKEY, MOD_CONTROL, 0x4D);
+	
+	
 	ShowWindow(hWnd,nShowCmd);
 
 	MSG msg;
@@ -92,8 +95,8 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 	static HWND hEdit;
 
-	static int curViewX=0; // 0 is initial
-	static int curViewY=0; // 0 is initial
+	static int addX=0; // 0 is initial
+	static int addY=0; // 0 is initial
 	switch(msg)
 	{
 
@@ -147,12 +150,28 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			{
 			case SB_THUMBPOSITION:
 				{
+					addY+=10;
+					SendMessage(hWnd, WM_SIZE, 0L, 0L);
 					SetScrollPos(hWnd, SB_VERT, 50, FALSE); 
 				}break;
 			}
 		}break;
 		//end wm_vscroll
-		
+		case WM_HSCROLL:
+		{
+			switch(LOWORD(wParam))
+			{
+				case SB_THUMBPOSITION:
+					{
+						addX+=10;
+						SendMessage(hWnd, WM_SIZE, 0L, 0L);
+						SetScrollPos(hWnd, SB_HORZ, 50, FALSE); 
+					}break;
+			}
+		}break;
+
+
+
 		case WM_HOTKEY:
 			{
 				switch(LOWORD(wParam))
@@ -168,6 +187,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				}
 			}break;
 		//end wm_hotkey
+
 		case WM_COMMAND:
 			{
 				hMenu = GetMenu(hWnd) ;
@@ -176,6 +196,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 				blue = rand()%255;
 				green = rand()%255;
 				HBRUSH brush = CreateSolidBrush(RGB(red, green, blue));
+
 				switch (LOWORD(wParam))
 					{
 					case IDM_RESTART:
@@ -188,6 +209,8 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 							SetClassLongPtr(hWnd, GCLP_HBRBACKGROUND, LONG(brush));
 							InvalidateRect (hWnd, NULL, TRUE) ;
 							MessageBeep (0) ;
+							addX = addY = 0;
+							SendMessage(hWnd, WM_SIZE, 0L, 0L);
 						}break;
 
 					case IDM_EXIT:
@@ -218,7 +241,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 							InvalidateRect (hWnd, NULL, TRUE) ;
 							return 0 ;
 					case IDM_HELP :
-							MessageBox (hWnd, "Help not yet implemented!",
+							MessageBox (hWnd, "CTRL+SPACE for changing background color\n CTRL+M",
 								"Lab#2", MB_ICONEXCLAMATION | MB_OK) ;
 							return 0 ;
 
@@ -245,8 +268,8 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			SetWindowPos(GetDlgItem(hWnd, IDC_EDIT), 
 				HWND_TOP, 
-				(rcWind.right-rcWind.left)/2 -100,
-				(rcWind.bottom-rcWind.top)/2-50, 
+				(rcWind.right-rcWind.left)/2 -100+addX,
+				(rcWind.bottom-rcWind.top)/2-50+addY, 
 				200, 
 				100, 
 				SWP_NOSIZE);
