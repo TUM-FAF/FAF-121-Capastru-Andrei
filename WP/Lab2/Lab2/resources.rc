@@ -1,4 +1,4 @@
-#include "resource.h"
+#include "resources.h"
 
 IDI_ICON ICON "favicon.ico"
 

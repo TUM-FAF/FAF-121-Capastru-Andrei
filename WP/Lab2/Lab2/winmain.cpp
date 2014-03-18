@@ -94,11 +94,16 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
     static HMENU  hMenu;
 	static HWND hEdit;
 
-	SCROLLINFO si;
 	static int prevX = 0;
 	static int prevY= 0;
 	static int addX=0; // 0 is initial
 	static int addY=0; // 0 is initial
+
+	SCROLLINFO si;
+	static int scrollY = 0, scrollX = 0;
+	addX = -scrollX;
+	addY = -scrollY;
+
 	switch(msg)
 	{
 
@@ -198,31 +203,140 @@ LRESULT CALLBACK WinProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 		//end wm_create
 
 		case WM_VSCROLL:
-		{
-			switch(LOWORD(wParam))
-			{
-			case SB_THUMBPOSITION:
-				{
-					addY+=10;
-					SendMessage(hWnd, WM_SIZE, 0L, 0L);
-					SetScrollPos(hWnd, SB_VERT, 50, FALSE); 
-				}break;
-			}
-		}break;
+        if (!lParam) 
+        {
+            si.cbSize = sizeof(SCROLLINFO);
+            si.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;
+
+            GetScrollInfo(hWnd, SB_VERT, &si);
+
+            int tempScrollY = si.nPos;
+            int maxLimit = si.nMax - si.nPage + 1;
+
+            switch (LOWORD(wParam))
+            {
+            case SB_LEFT:
+                tempScrollY = 0;
+                break;
+
+            case SB_RIGHT:
+                tempScrollY = maxLimit;
+                break;
+
+            case SB_LINELEFT:                       
+                tempScrollY = max(0, si.nPos-5);
+                break;
+
+            case SB_PAGELEFT:
+                {
+                    RECT rct;
+                    GetClientRect(hWnd, &rct);
+                    tempScrollY = max(0, si.nPos - (rct.bottom -rct.top));
+                }               
+                break;
+
+            case SB_LINERIGHT:
+                tempScrollY = min(maxLimit, si.nPos+5);
+                break;                  
+
+            case SB_PAGERIGHT:
+                {
+                    RECT rct;
+                    GetClientRect(hWnd, &rct);
+                    tempScrollY = min(maxLimit, si.nPos + (rct.bottom -rct.top));
+                }               
+                break;
+
+            case SB_THUMBTRACK:
+            case SB_THUMBPOSITION:
+                {                   
+                    tempScrollY = HIWORD(wParam);
+                }
+                break;
+
+            default:
+                break;
+            }
+
+            ScrollWindow(hWnd, 0, scrollY - tempScrollY, NULL, NULL);
+            scrollY = tempScrollY;
+            si.nPos = scrollY;
+            SetScrollInfo(hWnd, SB_VERT, &si, TRUE);
+        }
 		//end wm_vscroll
 
 		case WM_HSCROLL:
 		{
-			switch(LOWORD(wParam))
-			{
-				case SB_THUMBPOSITION:
+			if (!lParam)
+				{
+				si.cbSize = sizeof(SCROLLINFO);
+				si.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;
+
+				GetScrollInfo(hWnd, SB_HORZ, &si);
+
+				int tempScrollX = si.nPos;
+				int maxLimit = si.nMax - si.nPage + 1;
+
+				switch (LOWORD(wParam))
+				{
+				case SB_LEFT:
+					tempScrollX = 0;
+					break;
+
+				case SB_RIGHT:
+					tempScrollX = maxLimit;
+					break;
+
+				case SB_LINELEFT:                       
+					tempScrollX = max(0, si.nPos-5);
+					break;
+
+				case SB_PAGELEFT:
 					{
-						addX+=10;
-						SendMessage(hWnd, WM_SIZE, 0L, 0L);
-						SetScrollPos(hWnd, SB_HORZ, 50, FALSE); 
-					}break;
+						RECT rct;
+						GetClientRect(hWnd, &rct);
+						tempScrollX = max(0, si.nPos - (rct.right -rct.left));
+					}               
+					break;
+
+				case SB_LINERIGHT:
+					tempScrollX = min(maxLimit, si.nPos+5);
+					break;                  
+
+				case SB_PAGERIGHT:
+					{
+						RECT rct;
+						GetClientRect(hWnd, &rct);
+						tempScrollX = min(maxLimit, si.nPos + (rct.right -rct.left));
+					}               
+					break;
+
+				case SB_THUMBTRACK:
+				case SB_THUMBPOSITION:
+					{                   
+						tempScrollX = HIWORD(wParam);
+					}
+					break;
+
+				default:
+					break;
+				}
+
+				ScrollWindow(hWnd, scrollX - tempScrollX, 0, NULL, NULL);
+				scrollX = tempScrollX;
+				si.nPos = scrollX;
+				SetScrollInfo(hWnd, SB_HORZ, &si, TRUE);
+				}
+			else
+			{
+				int scrollId = GetDlgCtrlID((HWND)lParam);
+
+				//switch (scrollId)
+				{
+
+				}
 			}
-		}break;
+        } 
 		//end wm_hscroll
 
 		case WM_HOTKEY:
