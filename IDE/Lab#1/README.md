@@ -89,10 +89,22 @@ git init
     git commit -m 'commit branch2'
 ````
   
-#####Reset a branch to previous/specific commit
+#####Reset a branch to previous/specific commit and restore
 
   - Reset to previous:
   `git reset --hard HEAD`
+
+  - Reset to specific(ID got from history log): 
+  `git reset --hard ID`
+
+  - Restore(quick)
+  ````sh
+   git reflog          
+   git reset --hard ID
+  ````
+
+
+
 
 
   
