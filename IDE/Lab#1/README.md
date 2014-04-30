@@ -34,8 +34,37 @@ Command Line Interface; CLI Editors; Setting Server Environment; Version Control
 ## Work
 
 #####Create your own server (ex. virtual machine)
-  - (on Mac OS) enable remote login:
-  ````sh
-  systemsetup -setremotelogin on
+(on Mac OS) enable remote login:
+````sh
+systemsetup -setremotelogin on
+````
+
+#####Connect to a remote server via SSH:
+
+````sh
+ssh username@server
+````
+
+#####Init a git repo:
+````sh
+git init
+````
+
+#####Create a file in repository folder, write in your name, save and commit it
+````sh
+   mkdir foldername
+   touch filename.txt
+   vim filename.txt                  
+   i                             
+   Name Surname              
+   :wq                           
+   git add filename.txt              
+   git commit -m "Txt created"
+````
+
+#####Connect to server using public key
+  - Creating a key: 
+  ````sh 
+  ssh-keygen -t rsa
   ````
 
