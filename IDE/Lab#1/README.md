@@ -104,7 +104,58 @@ git init
   ````
 
 
+#####Make your CLI text editor to highlight code, in my case Vim:
+Just used the switch of its built-in highlither:
+`syntax on`
 
+#####Create a VCS alias, in my case Git:
+Found and set some useful aliases:
+````sh
+git config --global alias.st 'status'
+git config --global alias.hist 'log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short'
+````
+
+#####Master any CLI editor, in my case Vim.
+
+- `all` - Begin a new line above the cursor and insert text
+
+- `ggguG` - lowercase all text
+
+- `o` - Begin a new line below the cursor and insert text
+
+- `/word` - search word from top to bottom
+
+- `?word` - search word from bottom to top
+
+- `:%s/$/word/g` - add word at the end of each line
+
+- `:%s/word1/word2/g` - replace word1  by word2 in all  the file
+
+- `:g/word/d`  - delete all lines containing word
+
+- `Ctrl+n ,Ctrl+p` - Auto-complete
+
+- `:Sex` - Split window and open integrated file explorer
+
+- `:args` - list files
+
+- `:ls` - list buffers
+
+
+#####Create a VCS merge conflict and solve it
+Conflict: Edited a file in two different branches and try to merge them.
+Used method for branch creation as above then:
+`git merge branch2`
+
+- Result:
+````sh
+U   branch1.txt
+fatal: 'commit' is not possible because you have unmerged files.
+Please, fix them up in the work tree, and then use 'git add/rm ' as appropriate to mark resolution and make a commit, or use 'git commit -a'.
+````
+- Solving: 
+Opened with `vim branch1.txt` and chosed what I want to edit, then:
+`git commit -a -m 'commit name'`
 
 
   
