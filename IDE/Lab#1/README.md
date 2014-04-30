@@ -33,4 +33,9 @@ Command Line Interface; CLI Editors; Setting Server Environment; Version Control
 
 ## Work
 
+- #####Create your own server (ex. virtual machine)
+  - (on Mac OS) enable remote login:
+  ````sh
+  systemsetup -setremotelogin on
+  ````
 
