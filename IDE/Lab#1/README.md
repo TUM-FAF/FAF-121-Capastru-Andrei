@@ -63,8 +63,28 @@ git init
 ````
 
 #####Connect to server using public key
-  - Creating a key: 
+  - Creating a key:
+  
   ````sh 
   ssh-keygen -t rsa
   ````
 
+  - Adding created key to authorized list:
+   ````sh
+   cat ~/.ssh/id_rsa.pub | ssh user@ip "cat - >> ~/.ssh/authorized_keys"
+   ````
+
+#####Create 2 more branches with at least one unique committed file per branch
+(in branch2 will be present both branch1.txt & branch2.txt)
+  ````sh
+    git branch branch1
+    git checkout branch1
+    touch branch1.txt        
+    git add branch1.txt      
+    git commit -m 'commit branch1'
+    git branch branch2
+    git checkout branch12
+    touch branch2.txt        
+    git add branch2.txt      
+    git commit -m 'commit branch2'
+  ````
