@@ -76,7 +76,7 @@ git init
 
 #####Create 2 more branches with at least one unique committed file per branch
 (in branch2 will be present both branch1.txt & branch2.txt)
-  ````sh
+````sh
     git branch branch1
     git checkout branch1
     touch branch1.txt        
@@ -87,4 +87,13 @@ git init
     touch branch2.txt        
     git add branch2.txt      
     git commit -m 'commit branch2'
-  ````
+````
+  
+#####Reset a branch to previous/specific commit
+
+  - Reset to previous:
+  `git reset --hard HEAD`
+
+
+  
+  
