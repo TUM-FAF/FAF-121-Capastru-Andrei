@@ -14,7 +14,7 @@ The purpose of this laboratory work was for us to get acquainted with advanced f
 
 #### Done tasks:
 **Mandatory:**
-    - display a dialog box on some event;
-    - add a system menu with at least 3 items;
-    - hook keyboard input. Add 2 custom events for key combinations;
-    - 
+  - display a dialog box on some event;
+  - add a system menu with at least 3 items;
+  - hook keyboard input. Add 2 custom events for key combinations;
+  - 
