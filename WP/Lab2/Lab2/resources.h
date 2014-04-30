@@ -1,11 +1,12 @@
-#define Menu		   1000
-#define IDC_MAINSCROLL 100 
-#define IDC_SCROLL	   106
-#define IDH_BGCHANGER  101
-#define IDH_EXITHOTKEY 102
-#define IDI_ICON	   104
-#define IDC_EDIT	   103
-#define IDC_LISTBOX	   105
+#define Menu				5
+#define IDC_SCROLLTOP		106
+#define IDC_SCROLLBOTTOM	120
+#define IDH_BGCHANGER		101
+#define IDH_EXITHOTKEY		102
+#define IDI_ICON			104
+#define IDC_EDIT			103
+#define IDC_LISTBOX			150
+#define IDC_CURSOR			151
 
 
 #define IDM_RESTART  1

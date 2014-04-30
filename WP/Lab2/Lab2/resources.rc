@@ -1,6 +1,8 @@
 #include "resources.h"
 
-IDI_ICON ICON "favicon.ico"
+IDC_CURSOR	CURSOR "cur.cur"
+IDI_ICON	ICON "favicon.ico"
+
 
 Menu MENU
 BEGIN
