@@ -22,7 +22,7 @@ Command Line Interface; CLI Editors; Setting Server Environment; Version Control
   - create 2 more branches with at least one unique committed file per branch (1 pt)
   - set a branch to track a remote origin on which you are able to push (ex. github, bitbucket or a custom server) (1 pt)
   - create a VCS alias (1 pt)
-  - create a VCS hook (1 pt)
+  - Create a VCS merge conflict and solve it(1 pt)
   - git cherry-pick, rebase (1 pt)
 
 
@@ -36,7 +36,7 @@ Command Line Interface; CLI Editors; Setting Server Environment; Version Control
 #####Create your own server (ex. virtual machine)
 (on Mac OS) enable remote login:
 ````sh
-systemsetup -setremotelogin on
+sudo systemsetup -setremotelogin on
 ````
 
 #####Connect to a remote server via SSH:
@@ -156,6 +156,18 @@ Please, fix them up in the work tree, and then use 'git add/rm ' as appropriate 
 - Solving: 
 Opened with `vim branch1.txt` and chosed what I want to edit, then:
 `git commit -a -m 'commit name'`
+
+#####Cherry-pick and rebase
+Using same branches branch1 and branch2:
+```` sh
+git checkout -b branch3
+touch brahch3.txt
+git add brahch3.txt
+git commit -a -m "commitName"
+git checkout branch2
+git rebase branch1      #branch1->branch2
+git cherry-pick branch3 # apply last commit of branch3 to the current one
+````
 
 
   
