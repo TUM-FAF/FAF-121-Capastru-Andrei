@@ -39,6 +39,13 @@ Command Line Interface; CLI Editors; Setting Server Environment; Version Control
 sudo systemsetup -setremotelogin on
 ````
 
+On iOS device using openSSH jailbreak tweak + setted on the device GIT VCS and Ruby. 
+Connected via same WiFi network:
+````sh
+ssh root@192.168.0.3
+password:
+````
+
 #####Connect to a remote server via SSH:
 
 ````sh
