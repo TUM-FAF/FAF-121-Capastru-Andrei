@@ -13,7 +13,7 @@ int GetEraserWidth(HWND);
 COLORREF GetColor(HWND, HWND, HWND);       
 COLORREF GetFillColor(HWND, HWND, HWND);  
 
-char szClassName[] = "labul 3";
+char szClassName[] = "Lab3";
 HINSTANCE hInstance;
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nShowCmd)
