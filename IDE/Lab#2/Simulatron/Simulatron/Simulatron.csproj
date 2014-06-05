@@ -97,6 +97,20 @@
   <ItemGroup>
     <Resource Include="Images\abc.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bg_blue.jpg" />
+    <Resource Include="Images\bg_gray.jpg" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\bg_blue_fire.jpg" />
+    <Content Include="Sounds\fire.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\start.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
