@@ -84,8 +84,7 @@
 
             <Canvas Width="100" 
                     Height="100" 
-                    Background="Black"
-                    Margin="150">
+                    Background="Black">
                 
                 <Canvas.RenderTransform>
                     <RotateTransform x:Name="theTransform" />
