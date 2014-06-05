@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.VisualStudio.TestTools.UnitTesting
 
 //user defined
 using System.Speech.Synthesis; //userd for speech
@@ -71,6 +72,7 @@ namespace Simulatron
                 Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
                 //storyboard.Completed += delegate { bgBlueAppear.Visibility = System.Windows.Visibility.Hidden; };
                 storyboard.Begin();
+                
             }
        
             bSmall1 = true;
