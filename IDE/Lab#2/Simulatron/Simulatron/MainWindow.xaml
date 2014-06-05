@@ -1,0 +1,15 @@
+﻿<Window x:Class="Simulatron.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Simulatron" Height="434" Width="1311" ResizeMode="NoResize" Icon="Images/abc.jpg" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Cursor="Hand">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="199*"/>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="912*"/>
+        </Grid.ColumnDefinitions>
+        <Image HorizontalAlignment="Left" Height="425" VerticalAlignment="Top" Width="1330" Source="Images/abc.jpg" Grid.ColumnSpan="4" Margin="-6,0,-19,-19"/>
+        <Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="104,88,0,0" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>
