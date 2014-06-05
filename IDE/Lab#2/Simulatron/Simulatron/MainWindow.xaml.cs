@@ -13,19 +13,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.VisualStudio.TestTools.UnitTesting
+
 
 //user defined
 using System.Speech.Synthesis; //userd for speech
 using System.Windows.Media.Animation;
 using System.Media;
 using System.Windows.Controls.Primitives;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Simulatron
 {
     public partial class MainWindow : Window
     {
-
         //button checkers
         bool bSmall1 = false;
         bool once1 = true;
@@ -72,7 +72,8 @@ namespace Simulatron
                 Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
                 //storyboard.Completed += delegate { bgBlueAppear.Visibility = System.Windows.Visibility.Hidden; };
                 storyboard.Begin();
-                
+                //Assert.AreEqual(once1, true);
+                //Assert.AreEqual(bSmall1, true);
             }
        
             bSmall1 = true;
