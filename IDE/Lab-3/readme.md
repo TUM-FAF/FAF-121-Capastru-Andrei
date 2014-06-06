@@ -9,8 +9,7 @@ Created a simple **ToDoList App**
 Guide: https://developer.apple.com/library/ios/referencelibrary/GettingStarted/RoadMapiOS/ThirdTutorial.html#//apple_ref/doc/uid/TP40011343-CH10-SW1
 
 ### Done mandatory tasks:
-  - Study design guidlines for any mobile OS ([Android](https://developer.android.com/design/index.html), [iOS](https://developer.apple.com/library/ios/documentation/userexperience/conceptual/MobileHIG/index.html), [Windows Mobile](http://dev.windowsphone.com/en-us/design)
-  
+  - Study design guidlines for any mobile OS ([iOS](https://developer.apple.com/library/ios/documentation/userexperience/conceptual/MobileHIG/index.html))
   - Create a mobile app and launch it on emulator/simulator. Your app should have at least 3 element (ex. button, textarea, statusbar...) and one action (ex. clicking on a button will trigger a popup)
   
 
