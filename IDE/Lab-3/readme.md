@@ -23,6 +23,6 @@ Guide: https://developer.apple.com/library/ios/referencelibrary/GettingStarted/R
 
 
 ##Screenshots:
--> <img src="http://i.imgur.com/iINSUyk.png" width="240px" height="365px" /> <img src="http://i.imgur.com/Ne95xnO.png" width="240px" height="365px" /><img src="http://i.imgur.com/0d625QP.png" width="240px" height="365px" /> <-
+<center> <img src="http://i.imgur.com/iINSUyk.png" width="240px" height="365px" /> <img src="http://i.imgur.com/Ne95xnO.png" width="240px" height="365px" /><img src="http://i.imgur.com/0d625QP.png" width="240px" height="365px" /> </center>
 
 
