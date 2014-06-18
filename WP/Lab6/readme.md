@@ -7,7 +7,7 @@ Title:
 Developing a ToDoList using `C#`
 ------------
 
-[Link][https://github.com/TUM-FAF/FAF-121-Capastru-Andrei/tree/master/IDE/Lab%232] to my another C# work.
+[Link](https://github.com/TUM-FAF/FAF-121-Capastru-Andrei/tree/master/IDE/Lab%232) to my another C# work.
 
 Objectives with points:
 -----------------------
