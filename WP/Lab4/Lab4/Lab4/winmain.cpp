@@ -323,7 +323,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         break;
 		case WM_MOUSEWHEEL:
         {
-			SendMessage(hwnd, WM_TIMER
+			SendMessage(hwnd, WM_TIMER, 0, 0);
         }
         case WM_KEYDOWN:
         {
