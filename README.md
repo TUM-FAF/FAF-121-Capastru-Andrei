@@ -10,4 +10,5 @@
 
 ## Contained courses
 
-* WP
+* WP (Windows Programming)
+* IDE (Integrated Developement Environments)
