@@ -26,5 +26,27 @@ As it is a **Alien Ship**, I didn't make the buttons too visible. Aliens know wh
   - Set a breakpoint in your application and check variables values at that moment of time (1pt)
   - Create an installable application (1pt)
   - Image animation (fade in, fade out)
+  - GIF animation
   - Custom pop-up window
+
+
+###Captures (Explications)
+
+1. Initial state(everything is off)
+![init](https://raw.githubusercontent.com/TUM-FAF/FAF-121-Capastru-Andrei/master/IDE/Lab%232/capture1.JPG)
+
+2. Power on (passive state, down-left button click)
+![po](https://raw.githubusercontent.com/TUM-FAF/FAF-121-Capastru-Andrei/master/IDE/Lab%232/capture2.JPG)
+
+3. Shooting (needed connections are activated middle button click)
+![shoot](https://raw.githubusercontent.com/TUM-FAF/FAF-121-Capastru-Andrei/master/IDE/Lab%232/capture3.JPG)
+
+4. Pop-up wiht alien ID written in Aliens' Language(righ-down button click)
+![pop](https://raw.githubusercontent.com/TUM-FAF/FAF-121-Capastru-Andrei/master/IDE/Lab%232/pop-up.JPG)
+
+5. Trap button click. Auto-destroy in human style and exit
+![exit](https://raw.githubusercontent.com/TUM-FAF/FAF-121-Capastru-Andrei/master/IDE/Lab%232/capture4.JPG)
   
+
+###Conlcusion
+During this laboratory work I get a deeper knowledge in WPF and how to use C# for different tasks. Was very enjoyable to see the rising of Simulatron. It is very simple to use already integrated complex libraries(thre are a lot available) to synthetization, timers, animations etc.     
