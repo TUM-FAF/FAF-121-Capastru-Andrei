@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:todo="clr-namespace:ToDoListApp"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ToDoListApp.MainWindow"
-        Title="ToDoList:" Height="175"  Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" Icon="/ToDoList;component/todo.ico" Width="428" Background="White" WindowStartupLocation="Manual" Topmost="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+        Title="ToDoList:" Height="175"  Closing="Window_Closing" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow" Icon="gtg_icon.png" Width="428" Background="White" WindowStartupLocation="Manual" Topmost="True" HorizontalAlignment="Right" VerticalAlignment="Top">
     <Window.Resources>
         <ContextMenu x:Key="itemMenu">
             <MenuItem Header="_Edit" Click="EditMenu_Click"/>
