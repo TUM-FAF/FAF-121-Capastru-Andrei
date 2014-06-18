@@ -108,6 +108,9 @@
   <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\bg_blue_fire.jpg" />
+    <Resource Include="Images\321.gif" />
+    <Resource Include="Images\icon.ico" />
+    <Content Include="Sounds\crash.mp3" />
     <Content Include="Sounds\fire.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
