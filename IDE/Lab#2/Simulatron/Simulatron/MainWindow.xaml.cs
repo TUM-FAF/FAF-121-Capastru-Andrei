@@ -21,6 +21,7 @@ using System.Windows.Media.Animation;
 using System.Media;
 using System.Windows.Controls.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics;
 
 namespace Simulatron
 {
@@ -30,6 +31,7 @@ namespace Simulatron
         bool bSmall1 = false;
         bool once1 = true;
         bool bSmall2 = false;
+        bool bSmall4 = false;
         bool popupShow = true;
         
         //speech synthetization
@@ -129,31 +131,18 @@ namespace Simulatron
         {
             if (bSmall1)
             {
-                //synthesizer.SpeakAsync("It was a trap. You are dead. Good bye, Alienss!");
-             
-                //once1 = false;
-                //String pathToAudio = "Sounds/crash.mp3";
-                //mediaPlayer.Open(new Uri(pathToAudio, UriKind.Relative));
-                //mediaPlayer.Play();
-
-                //var a = new DoubleAnimation
-                //{
-                //    From = 0.0,
-                //    To = 1.0,
-                //    FillBehavior = FillBehavior.Stop,
-                //    BeginTime = TimeSpan.FromSeconds(0),
-                //    Duration = new Duration(TimeSpan.FromSeconds(5))
-                //};
-
-                //var storyboard = new Storyboard();
-                //crashImage.Visibility = System.Windows.Visibility.Visible;
-                //storyboard.Children.Add(a);
-                //Storyboard.SetTarget(a, bgBlueFire);
-                //Storyboard.SetTargetProperty(a, new PropertyPath(OpacityProperty));
-                //storyboard.Completed += delegate { bgBlueFire.Visibility = System.Windows.Visibility.Hidden; };
-                //storyboard.Begin();
-            }//endif
-        }//end bsmall3
+                synthesizer.SpeakAsync("It was a trap. You are dead. Good bye Aliens!");
+                if (bSmall4)
+                {
+                    endofstory.Visibility = System.Windows.Visibility.Visible;
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+                    if (sw.Elapsed > TimeSpan.FromMilliseconds(200)) return;      
+                }
+                    bSmall4 = true;
+                
+            }
+        }
 
     }
 }
