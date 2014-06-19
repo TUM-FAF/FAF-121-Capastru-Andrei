@@ -19,7 +19,7 @@
    - Draw few plane objects (ex. circle, square, pie, polygon...) of different colors, weights, filled and not
    - Draw 2 different objects using mouse
 
-### And tasks with points:
+### Tasks with points:
 
    - Draw a custom bitmap image
    - Add a switch (button, select list...) that will change mouse ability to draw objects
